@@ -76,6 +76,7 @@ export default createManifestHandler({
         /**
          * F&B App permissions for restaurant management
          */
+        "AUTHENTICATED_APP",  // Enable app token authentication for API access
         "MANAGE_ORDERS",      // Order management and tracking
         "MANAGE_PRODUCTS",    // Menu item management  
         "MANAGE_USERS",       // Customer management

@@ -46,4 +46,7 @@ yarn-error.log*
 # Sentry
 .sentryclirc
 
-.env
+.env__pycache__/
+test_env/
+*.pyc
+*.log
