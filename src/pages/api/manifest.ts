@@ -3,11 +3,11 @@ import { AppExtension, AppManifest } from "@saleor/app-sdk/types";
 
 import packageJson from "@/package.json";
 
+import { deliveryAssignedWebhook } from "./webhooks/delivery-assigned";
 import { orderCreatedWebhook } from "./webhooks/order-created";
 import { orderFilterShippingMethodsWebhook } from "./webhooks/order-filter-shipping-methods";
-import { restaurantOrderReceivedWebhook } from "./webhooks/restaurant-order-received";
 import { orderStatusUpdateWebhook } from "./webhooks/order-status-update";
-import { deliveryAssignedWebhook } from "./webhooks/delivery-assigned";
+import { restaurantOrderReceivedWebhook } from "./webhooks/restaurant-order-received";
 
 /**
  * App SDK helps with the valid Saleor App Manifest creation. Read more:

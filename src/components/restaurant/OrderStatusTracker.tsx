@@ -49,24 +49,24 @@ export function OrderStatusTracker({ order, className = '' }: OrderStatusTracker
                 'upcoming'
               }`}
             >
-              <div className=\"step-indicator\">
-                <span className=\"step-icon\">{step.icon}</span>
+              <div className="step-indicator">
+                <span className="step-icon">{step.icon}</span>
               </div>
-              <div className=\"step-content\">
-                <div className=\"step-label\">{step.label}</div>
+              <div className="step-content">
+                <div className="step-label">{step.label}</div>
                 {step.time && (
-                  <div className=\"step-time\">
+                  <div className="step-time">
                     {new Date(step.time).toLocaleString()}
                   </div>
                 )}
                 {step.key === 'preparing' && metadata.get('estimatedPreparationTime') && (
-                  <div className=\"step-detail\">
-                    Est. time: {metadata.get('estimatedPreparationTime')}
+                  <div className="step-detail">
+                    Est. time: {String(metadata.get('estimatedPreparationTime'))}
                   </div>
                 )}
                 {step.key === 'out_for_delivery' && metadata.get('driverName') && (
-                  <div className=\"step-detail\">
-                    Driver: {metadata.get('driverName')} ({metadata.get('driverPhone')})
+                  <div className="step-detail">
+                    Driver: {String(metadata.get('driverName'))} ({String(metadata.get('driverPhone'))})
                   </div>
                 )}
               </div>
@@ -76,27 +76,27 @@ export function OrderStatusTracker({ order, className = '' }: OrderStatusTracker
       </div>
 
       {/* Additional order details */}
-      <div className=\"order-details-summary\">
-        <div className=\"detail-row\">
+      <div className="order-details-summary">
+        <div className="detail-row">
           <span>Customer:</span>
           <span>{order.billingAddress?.firstName} {order.billingAddress?.lastName}</span>
         </div>
-        <div className=\"detail-row\">
+        <div className="detail-row">
           <span>Total:</span>
           <span>${order.total?.gross?.amount}</span>
         </div>
-        <div className=\"detail-row\">
+        <div className="detail-row">
           <span>Payment:</span>
           <span className={order.isPaid ? 'paid' : 'unpaid'}>
             {order.isPaid ? '✅ Paid' : '⏳ Pending'}
           </span>
         </div>
-        {metadata.get('estimatedArrival') && (
-          <div className=\"detail-row\">
+        {metadata.get('estimatedArrival') ? (
+          <div className="detail-row">
             <span>ETA:</span>
-            <span>{new Date(metadata.get('estimatedArrival')).toLocaleTimeString()}</span>
+            <span>{new Date(String(metadata.get('estimatedArrival'))).toLocaleTimeString()}</span>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
@@ -134,49 +134,49 @@ export function EnhancedOrderCard({
     } status-${currentStatus}`}>
       
       {/* Order Header with Status */}
-      <div className=\"order-header-enhanced\">
-        <div className=\"order-title\">
+      <div className="order-header-enhanced">
+        <div className="order-title">
           <h4>Order #{order.number}</h4>
-          <span className=\"order-age\">
+          <span className="order-age">
             {Math.floor(orderAge)}m ago
             {isCritical && ' ⚠️'}
             {isUrgent && !isCritical && ' ⏰'}
           </span>
         </div>
-        <span className=\"order-total\">${order.total?.gross?.amount}</span>
+        <span className="order-total">${order.total?.gross?.amount}</span>
       </div>
 
       {/* Customer Info */}
-      <div className=\"customer-info\">
-        <div className=\"customer-name\">
+      <div className="customer-info">
+        <div className="customer-name">
           👤 {order.billingAddress?.firstName} {order.billingAddress?.lastName}
         </div>
         {order.billingAddress?.phone && (
-          <div className=\"customer-phone\">
+          <div className="customer-phone">
             📞 {order.billingAddress.phone}
           </div>
         )}
       </div>
 
       {/* Order Items */}
-      <div className=\"order-items-enhanced\">
+      <div className="order-items-enhanced">
         {order.lines?.map((line: any) => (
-          <div key={line.id} className=\"order-item-enhanced\">
-            <span className=\"item-quantity\">{line.quantity}×</span>
-            <div className=\"item-details\">
-              <span className=\"item-name\">{line.productName}</span>
+          <div key={line.id} className="order-item-enhanced">
+            <span className="item-quantity">{line.quantity}×</span>
+            <div className="item-details">
+              <span className="item-name">{line.productName}</span>
               {line.variantName && (
-                <span className=\"item-variant\">({line.variantName})</span>
+                <span className="item-variant">({line.variantName})</span>
               )}
             </div>
-            <span className=\"item-price\">${line.totalPrice?.gross?.amount}</span>
+            <span className="item-price">${line.totalPrice?.gross?.amount}</span>
           </div>
         ))}
       </div>
 
       {/* Special Instructions */}
       {order.customerNote && (
-        <div className=\"special-instructions\">
+        <div className="special-instructions">
           <strong>📝 Special Instructions:</strong>
           <p>{order.customerNote}</p>
         </div>
@@ -184,7 +184,7 @@ export function EnhancedOrderCard({
 
       {/* Delivery Address */}
       {order.shippingAddress && (
-        <div className=\"delivery-address\">
+        <div className="delivery-address">
           <strong>📍 Delivery Address:</strong>
           <p>
             {order.shippingAddress.streetAddress1}
@@ -202,16 +202,16 @@ export function EnhancedOrderCard({
 
       {/* Order Actions - only show for pending orders */}
       {currentStatus === 'pending' && (
-        <div className=\"order-actions-enhanced\">
+        <div className="order-actions-enhanced">
           <button 
             onClick={() => {/* Accept order logic */}} 
-            className=\"accept-btn-enhanced\"
+            className="accept-btn-enhanced"
           >
             ✅ Accept Order
           </button>
           <button 
             onClick={() => {/* Reject order logic */}} 
-            className=\"reject-btn-enhanced\"
+            className="reject-btn-enhanced"
           >
             ❌ Reject
           </button>
@@ -220,16 +220,16 @@ export function EnhancedOrderCard({
 
       {/* Status Actions for accepted orders */}
       {currentStatus === 'accepted' && (
-        <div className=\"status-actions\">
-          <button className=\"status-btn preparing\">
+        <div className="status-actions">
+          <button className="status-btn preparing">
             👨‍🍳 Start Preparing
           </button>
         </div>
       )}
 
       {currentStatus === 'preparing' && (
-        <div className=\"status-actions\">
-          <button className=\"status-btn ready\">
+        <div className="status-actions">
+          <button className="status-btn ready">
             🍽️ Mark Ready
           </button>
         </div>

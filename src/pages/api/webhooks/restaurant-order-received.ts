@@ -1,10 +1,10 @@
 import { SaleorAsyncWebhook } from "@saleor/app-sdk/handlers/next";
 
 import {
+  AcceptRestaurantOrderDocument,
   OrderCreatedSubscriptionDocument,
   OrderCreatedWebhookPayloadFragment,
   RestaurantOrderQueueDocument,
-  AcceptRestaurantOrderDocument,
 } from "@/generated/graphql";
 import { createClient } from "@/lib/create-graphq-client";
 import { saleorApp } from "@/saleor-app";

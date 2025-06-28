@@ -1,17 +1,18 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useCallback,useEffect, useRef, useState } from 'react';
 import { useQuery } from 'urql';
-import { RestaurantOrderQueueDocument } from '@/generated/graphql';
+
+import { OrderStatusFilter,RestaurantOrderQueueDocument } from '@/generated/graphql';
 
 interface UseOrderPollingOptions {
   channelId: string;
-  status?: string[];
+  status?: OrderStatusFilter[];
   pollInterval?: number;
   enabled?: boolean;
 }
 
 export function useOrderPolling({
   channelId,
-  status = ['UNCONFIRMED', 'UNFULFILLED'],
+  status = [OrderStatusFilter.Unconfirmed, OrderStatusFilter.Unfulfilled],
   pollInterval = 15000,
   enabled = true
 }: UseOrderPollingOptions) {

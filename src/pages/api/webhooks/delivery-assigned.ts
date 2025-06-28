@@ -1,9 +1,9 @@
 import { SaleorAsyncWebhook } from "@saleor/app-sdk/handlers/next";
 
 import {
+  AssignDeliveryDriverDocument,
   OrderFulfilledSubscriptionDocument,
   OrderFulfilledWebhookPayloadFragment,
-  AssignDeliveryDriverDocument,
   UpdateDeliveryStatusDocument,
 } from "@/generated/graphql";
 import { createClient } from "@/lib/create-graphq-client";
