@@ -1,0 +1,305 @@
+# Restaurant Order Management using existing Saleor Order capabilities
+
+query RestaurantOrderQueue($channel: ID!, $status: [OrderStatusFilter!], $first: Int, $after: String) {
+  orders(
+    filter: { 
+      channels: [$channel]
+      status: $status
+      # Add created date filter for recent orders
+      created: {
+        gte: "2024-01-01T00:00:00Z"  # Example: orders from today
+      }
+    }
+    first: $first
+    after: $after
+    sortBy: { field: CREATION_DATE, direction: ASC }
+  ) {
+    edges {
+      node {
+        id
+        number
+        status
+        created
+        updatedAt
+        total {
+          gross {
+            amount
+            currency
+          }
+          net {
+            amount
+            currency
+          }
+          tax {
+            amount
+            currency
+          }
+        }
+        # Customer information
+        user {
+          id
+          firstName
+          lastName
+          email
+        }
+        # Delivery address
+        shippingAddress {
+          firstName
+          lastName
+          streetAddress1
+          streetAddress2
+          city
+          postalCode
+          country {
+            code
+            country
+          }
+          phone
+        }
+        # Order line items (menu items ordered)
+        lines {
+          id
+          productName
+          variantName
+          productSku
+          quantity
+          quantityFulfilled
+          totalPrice {
+            gross {
+              amount
+              currency
+            }
+          }
+          unitPrice {
+            gross {
+              amount
+              currency
+            }
+          }
+          # Product thumbnail for kitchen display
+          thumbnail {
+            url
+            alt
+          }
+          # Order line metadata for special instructions
+          metadata {
+            key
+            value
+          }
+        }
+        # Payment information
+        paymentStatus
+        isPaid
+        payments {
+          id
+          gateway
+          isActive
+          created
+          modified
+          chargeStatus
+          total {
+            amount
+            currency
+          }
+        }
+        # Shipping method (delivery type)
+        shippingMethod {
+          id
+          name
+          description
+          metadata {
+            key
+            value
+          }
+        }
+        # Customer notes (special instructions)
+        customerNote
+        # Order metadata (table number, special requests, etc.)
+        metadata {
+          key
+          value
+        }
+        privateMetadata {
+          key
+          value
+        }
+        # Fulfillment information
+        fulfillments {
+          id
+          status
+          created
+          fulfillmentOrder
+          trackingNumber
+          lines {
+            id
+            quantity
+            orderLine {
+              id
+              productName
+              variantName
+            }
+          }
+          # Fulfillment metadata (preparation notes, kitchen station)
+          metadata {
+            key
+            value
+          }
+        }
+        # Order events (status history)
+        events {
+          id
+          type
+          date
+          user {
+            firstName
+            lastName
+          }
+          message
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}
+
+query OrderTrackingForCustomer($id: ID!) {
+  order(id: $id) {
+    id
+    number
+    status
+    created
+    updatedAt
+    total {
+      gross {
+        amount
+        currency
+      }
+    }
+    # Customer information
+    user {
+      firstName
+      lastName
+    }
+    # Delivery address
+    shippingAddress {
+      firstName
+      lastName
+      streetAddress1
+      city
+      postalCode
+    }
+    # Order items with thumbnails
+    lines {
+      id
+      productName
+      variantName
+      quantity
+      quantityFulfilled
+      totalPrice {
+        gross {
+          amount
+          currency
+        }
+      }
+      thumbnail {
+        url
+      }
+    }
+    # Shipping/delivery method
+    shippingMethod {
+      id
+      name
+      description
+    }
+    # Customer notes
+    customerNote
+    # Order metadata (estimated delivery time, driver info, etc.)
+    metadata {
+      key
+      value
+    }
+    # Payment status
+    paymentStatus
+    isPaid
+    # Order status history
+    events {
+      id
+      type
+      date
+      message
+      user {
+        firstName
+        lastName
+      }
+    }
+    # Fulfillment status
+    fulfillments {
+      id
+      status
+      created
+      trackingNumber
+      lines {
+        id
+        quantity
+        orderLine {
+          productName
+        }
+      }
+      metadata {
+        key
+        value
+      }
+    }
+  }
+}
+
+query TodaysRestaurantOrders($channel: ID!) {
+  orders(
+    filter: {
+      channels: [$channel]
+      created: {
+        gte: "2024-01-01T00:00:00Z"  # Filter for today's date
+        lte: "2024-01-01T23:59:59Z"
+      }
+    }
+    first: 100
+    sortBy: { field: CREATION_DATE, direction: DESC }
+  ) {
+    edges {
+      node {
+        id
+        number
+        status
+        created
+        total {
+          gross {
+            amount
+            currency
+          }
+        }
+        lines {
+          id
+          productName
+          quantity
+        }
+        user {
+          firstName
+          lastName
+        }
+        shippingAddress {
+          city
+        }
+        paymentStatus
+        fulfillments {
+          status
+        }
+      }
+    }
+    totalCount
+  }
+}

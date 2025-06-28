@@ -29249,10 +29249,112 @@ export type OrderCreatedWebhookPayloadFragment = { readonly order?: { readonly u
 
 export type OrderFilterShippingMethodsPayloadFragment = { readonly order?: { readonly id: string } | null, readonly shippingMethods?: ReadonlyArray<{ readonly id: string, readonly name: string }> | null };
 
+export type AcceptRestaurantOrderMutationVariables = Exact<{
+  orderId: Scalars['ID'];
+  preparationTime: Scalars['String'];
+}>;
+
+
+export type AcceptRestaurantOrderMutation = { readonly orderConfirm?: { readonly order?: { readonly id: string, readonly status: OrderStatus, readonly updatedAt: string, readonly events: ReadonlyArray<{ readonly id: string, readonly type?: OrderEventsEnum | null, readonly date?: string | null, readonly message?: string | null }> } | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: OrderErrorCode }> } | null, readonly updatePrivateMetadata?: { readonly item?: { readonly id: string, readonly privateMetadata: ReadonlyArray<{ readonly key: string, readonly value: string }> } | {} | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: MetadataErrorCode }> } | null };
+
+export type RejectRestaurantOrderMutationVariables = Exact<{
+  orderId: Scalars['ID'];
+  rejectionReason: Scalars['String'];
+}>;
+
+
+export type RejectRestaurantOrderMutation = { readonly orderCancel?: { readonly order?: { readonly id: string, readonly status: OrderStatus, readonly events: ReadonlyArray<{ readonly id: string, readonly type?: OrderEventsEnum | null, readonly date?: string | null, readonly message?: string | null }> } | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: OrderErrorCode }> } | null, readonly updatePrivateMetadata?: { readonly item?: { readonly id: string, readonly privateMetadata: ReadonlyArray<{ readonly key: string, readonly value: string }> } | {} | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: MetadataErrorCode }> } | null };
+
+export type StartOrderPreparationMutationVariables = Exact<{
+  orderId: Scalars['ID'];
+  kitchenStation: Scalars['String'];
+}>;
+
+
+export type StartOrderPreparationMutation = { readonly updatePrivateMetadata?: { readonly item?: { readonly id: string, readonly privateMetadata: ReadonlyArray<{ readonly key: string, readonly value: string }> } | {} | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: MetadataErrorCode }> } | null };
+
+export type CompleteOrderItemMutationVariables = Exact<{
+  fulfillmentId: Scalars['ID'];
+  lineId: Scalars['ID'];
+  completedQuantity: Scalars['Int'];
+}>;
+
+
+export type CompleteOrderItemMutation = { readonly orderFulfillmentUpdateTracking?: { readonly fulfillment?: { readonly id: string, readonly status: FulfillmentStatus, readonly trackingNumber: string } | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: OrderErrorCode }> } | null };
+
+export type MarkOrderReadyMutationVariables = Exact<{
+  orderId: Scalars['ID'];
+  fulfillmentId: Scalars['ID'];
+}>;
+
+
+export type MarkOrderReadyMutation = { readonly orderFulfillmentUpdateTracking?: { readonly fulfillment?: { readonly id: string, readonly status: FulfillmentStatus, readonly trackingNumber: string } | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: OrderErrorCode }> } | null, readonly updatePrivateMetadata?: { readonly item?: { readonly id: string, readonly privateMetadata: ReadonlyArray<{ readonly key: string, readonly value: string }> } | {} | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: MetadataErrorCode }> } | null };
+
+export type AssignDeliveryDriverMutationVariables = Exact<{
+  orderId: Scalars['ID'];
+  driverName: Scalars['String'];
+  driverPhone: Scalars['String'];
+  vehicleInfo: Scalars['String'];
+}>;
+
+
+export type AssignDeliveryDriverMutation = { readonly updatePrivateMetadata?: { readonly item?: { readonly id: string, readonly privateMetadata: ReadonlyArray<{ readonly key: string, readonly value: string }> } | {} | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: MetadataErrorCode }> } | null };
+
+export type UpdateDeliveryStatusMutationVariables = Exact<{
+  orderId: Scalars['ID'];
+  status: Scalars['String'];
+  location: Scalars['String'];
+  estimatedArrival: Scalars['String'];
+}>;
+
+
+export type UpdateDeliveryStatusMutation = { readonly updatePrivateMetadata?: { readonly item?: { readonly id: string, readonly privateMetadata: ReadonlyArray<{ readonly key: string, readonly value: string }> } | {} | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: MetadataErrorCode }> } | null };
+
+export type CompleteOrderDeliveryMutationVariables = Exact<{
+  orderId: Scalars['ID'];
+  fulfillmentId: Scalars['ID'];
+}>;
+
+
+export type CompleteOrderDeliveryMutation = { readonly orderFulfillmentUpdateTracking?: { readonly fulfillment?: { readonly id: string, readonly status: FulfillmentStatus, readonly trackingNumber: string } | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: OrderErrorCode }> } | null, readonly updatePrivateMetadata?: { readonly item?: { readonly id: string, readonly privateMetadata: ReadonlyArray<{ readonly key: string, readonly value: string }> } | {} | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: MetadataErrorCode }> } | null };
+
+export type UpdateMenuItemAvailabilityMutationVariables = Exact<{
+  productId: Scalars['ID'];
+  channelId: Scalars['ID'];
+  isAvailable: Scalars['Boolean'];
+}>;
+
+
+export type UpdateMenuItemAvailabilityMutation = { readonly productChannelListingUpdate?: { readonly product?: { readonly id: string, readonly name: string, readonly channelListings?: ReadonlyArray<{ readonly isAvailableForPurchase?: boolean | null, readonly availableForPurchaseAt?: string | null, readonly channel: { readonly slug: string } }> | null } | null, readonly errors: ReadonlyArray<{ readonly field?: string | null, readonly message?: string | null, readonly code: ProductErrorCode }> } | null };
+
 export type LastOrderQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LastOrderQuery = { readonly orders?: { readonly edges: ReadonlyArray<{ readonly node: { readonly id: string, readonly number: string, readonly created: string, readonly user?: { readonly firstName: string, readonly lastName: string } | null, readonly shippingAddress?: { readonly country: { readonly country: string } } | null, readonly total: { readonly gross: { readonly amount: number, readonly currency: string } }, readonly lines: ReadonlyArray<{ readonly id: string }> } }> } | null };
+
+export type RestaurantOrderQueueQueryVariables = Exact<{
+  channel: Scalars['ID'];
+  status?: InputMaybe<ReadonlyArray<OrderStatusFilter> | OrderStatusFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type RestaurantOrderQueueQuery = { readonly orders?: { readonly edges: ReadonlyArray<{ readonly node: { readonly id: string, readonly number: string, readonly status: OrderStatus, readonly created: string, readonly updatedAt: string, readonly paymentStatus: PaymentChargeStatusEnum, readonly isPaid: boolean, readonly customerNote: string, readonly total: { readonly gross: { readonly amount: number, readonly currency: string }, readonly net: { readonly amount: number, readonly currency: string }, readonly tax: { readonly amount: number, readonly currency: string } }, readonly user?: { readonly id: string, readonly firstName: string, readonly lastName: string, readonly email: string } | null, readonly shippingAddress?: { readonly firstName: string, readonly lastName: string, readonly streetAddress1: string, readonly streetAddress2: string, readonly city: string, readonly postalCode: string, readonly phone?: string | null, readonly country: { readonly code: string, readonly country: string } } | null, readonly lines: ReadonlyArray<{ readonly id: string, readonly productName: string, readonly variantName: string, readonly productSku?: string | null, readonly quantity: number, readonly quantityFulfilled: number, readonly totalPrice: { readonly gross: { readonly amount: number, readonly currency: string } }, readonly unitPrice: { readonly gross: { readonly amount: number, readonly currency: string } }, readonly thumbnail?: { readonly url: string, readonly alt?: string | null } | null, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }> }>, readonly payments: ReadonlyArray<{ readonly id: string, readonly gateway: string, readonly isActive: boolean, readonly created: string, readonly modified: string, readonly chargeStatus: PaymentChargeStatusEnum, readonly total?: { readonly amount: number, readonly currency: string } | null }>, readonly shippingMethod?: { readonly id: string, readonly name: string, readonly description?: string | null, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }> } | null, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }>, readonly privateMetadata: ReadonlyArray<{ readonly key: string, readonly value: string }>, readonly fulfillments: ReadonlyArray<{ readonly id: string, readonly status: FulfillmentStatus, readonly created: string, readonly fulfillmentOrder: number, readonly trackingNumber: string, readonly lines?: ReadonlyArray<{ readonly id: string, readonly quantity: number, readonly orderLine?: { readonly id: string, readonly productName: string, readonly variantName: string } | null }> | null, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }> }>, readonly events: ReadonlyArray<{ readonly id: string, readonly type?: OrderEventsEnum | null, readonly date?: string | null, readonly message?: string | null, readonly user?: { readonly firstName: string, readonly lastName: string } | null }> } }>, readonly pageInfo: { readonly hasNextPage: boolean, readonly hasPreviousPage: boolean, readonly startCursor?: string | null, readonly endCursor?: string | null } } | null };
+
+export type OrderTrackingForCustomerQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type OrderTrackingForCustomerQuery = { readonly order?: { readonly id: string, readonly number: string, readonly status: OrderStatus, readonly created: string, readonly updatedAt: string, readonly customerNote: string, readonly paymentStatus: PaymentChargeStatusEnum, readonly isPaid: boolean, readonly total: { readonly gross: { readonly amount: number, readonly currency: string } }, readonly user?: { readonly firstName: string, readonly lastName: string } | null, readonly shippingAddress?: { readonly firstName: string, readonly lastName: string, readonly streetAddress1: string, readonly city: string, readonly postalCode: string } | null, readonly lines: ReadonlyArray<{ readonly id: string, readonly productName: string, readonly variantName: string, readonly quantity: number, readonly quantityFulfilled: number, readonly totalPrice: { readonly gross: { readonly amount: number, readonly currency: string } }, readonly thumbnail?: { readonly url: string } | null }>, readonly shippingMethod?: { readonly id: string, readonly name: string, readonly description?: string | null } | null, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }>, readonly events: ReadonlyArray<{ readonly id: string, readonly type?: OrderEventsEnum | null, readonly date?: string | null, readonly message?: string | null, readonly user?: { readonly firstName: string, readonly lastName: string } | null }>, readonly fulfillments: ReadonlyArray<{ readonly id: string, readonly status: FulfillmentStatus, readonly created: string, readonly trackingNumber: string, readonly lines?: ReadonlyArray<{ readonly id: string, readonly quantity: number, readonly orderLine?: { readonly productName: string } | null }> | null, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }> }> } | null };
+
+export type TodaysRestaurantOrdersQueryVariables = Exact<{
+  channel: Scalars['ID'];
+}>;
+
+
+export type TodaysRestaurantOrdersQuery = { readonly orders?: { readonly totalCount?: number | null, readonly edges: ReadonlyArray<{ readonly node: { readonly id: string, readonly number: string, readonly status: OrderStatus, readonly created: string, readonly paymentStatus: PaymentChargeStatusEnum, readonly total: { readonly gross: { readonly amount: number, readonly currency: string } }, readonly lines: ReadonlyArray<{ readonly id: string, readonly productName: string, readonly quantity: number }>, readonly user?: { readonly firstName: string, readonly lastName: string } | null, readonly shippingAddress?: { readonly city: string } | null, readonly fulfillments: ReadonlyArray<{ readonly status: FulfillmentStatus }> } }> } | null };
 
 export type ProductTimestampsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -29260,6 +29362,28 @@ export type ProductTimestampsQueryVariables = Exact<{
 
 
 export type ProductTimestampsQuery = { readonly product?: { readonly created: string, readonly updatedAt: string } | null };
+
+export type RestaurantsListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RestaurantsListQuery = { readonly channels?: ReadonlyArray<{ readonly id: string, readonly name: string, readonly slug: string, readonly isActive: boolean, readonly currencyCode: string, readonly defaultCountry: { readonly code: string, readonly country: string }, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }>, readonly privateMetadata: ReadonlyArray<{ readonly key: string, readonly value: string }>, readonly warehouses: ReadonlyArray<{ readonly id: string, readonly name: string, readonly address: { readonly streetAddress1: string, readonly city: string, readonly postalCode: string, readonly country: { readonly code: string } } }>, readonly availableShippingMethodsPerCountry?: ReadonlyArray<{ readonly countryCode: CountryCode, readonly shippingMethods?: ReadonlyArray<{ readonly id: string, readonly name: string, readonly description?: string | null, readonly minimumOrderWeight?: { readonly value: number, readonly unit: WeightUnitsEnum } | null, readonly maximumOrderWeight?: { readonly value: number, readonly unit: WeightUnitsEnum } | null, readonly price: { readonly amount: number, readonly currency: string }, readonly minimumOrderPrice?: { readonly amount: number, readonly currency: string } | null, readonly maximumOrderPrice?: { readonly amount: number, readonly currency: string } | null, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }> }> | null }> | null }> | null };
+
+export type RestaurantDetailsQueryVariables = Exact<{
+  id: Scalars['ID'];
+  slug?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type RestaurantDetailsQuery = { readonly channel?: { readonly id: string, readonly name: string, readonly slug: string, readonly isActive: boolean, readonly currencyCode: string, readonly defaultCountry: { readonly code: string, readonly country: string }, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }>, readonly privateMetadata: ReadonlyArray<{ readonly key: string, readonly value: string }>, readonly warehouses: ReadonlyArray<{ readonly id: string, readonly name: string, readonly address: { readonly streetAddress1: string, readonly streetAddress2: string, readonly city: string, readonly postalCode: string, readonly phone?: string | null, readonly country: { readonly code: string, readonly country: string } }, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }> }>, readonly orderSettings: { readonly automaticallyConfirmAllNewOrders: boolean, readonly automaticallyFulfillNonShippableGiftCard: boolean }, readonly stockSettings: { readonly allocationStrategy: AllocationStrategyEnum }, readonly availableShippingMethodsPerCountry?: ReadonlyArray<{ readonly countryCode: CountryCode, readonly shippingMethods?: ReadonlyArray<{ readonly id: string, readonly name: string, readonly description?: string | null, readonly price: { readonly amount: number, readonly currency: string }, readonly minimumOrderPrice?: { readonly amount: number, readonly currency: string } | null, readonly maximumOrderPrice?: { readonly amount: number, readonly currency: string } | null, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }> }> | null }> | null } | null };
+
+export type RestaurantMenuQueryVariables = Exact<{
+  channelSlug: Scalars['String'];
+  first?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type RestaurantMenuQuery = { readonly products?: { readonly edges: ReadonlyArray<{ readonly node: { readonly id: string, readonly name: string, readonly description?: string | null, readonly slug: string, readonly category?: { readonly id: string, readonly name: string, readonly slug: string, readonly level: number, readonly parent?: { readonly id: string, readonly name: string } | null } | null, readonly productType: { readonly id: string, readonly name: string, readonly hasVariants: boolean }, readonly attributes: ReadonlyArray<{ readonly attribute: { readonly id: string, readonly name?: string | null, readonly type?: AttributeTypeEnum | null, readonly inputType?: AttributeInputTypeEnum | null, readonly choices?: { readonly edges: ReadonlyArray<{ readonly node: { readonly id: string, readonly name?: string | null, readonly value?: string | null } }> } | null }, readonly values: ReadonlyArray<{ readonly id: string, readonly name?: string | null, readonly value?: string | null, readonly plainText?: string | null, readonly richText?: string | null }> }>, readonly variants?: ReadonlyArray<{ readonly id: string, readonly name: string, readonly sku?: string | null, readonly channelListings?: ReadonlyArray<{ readonly id: string, readonly channel: { readonly slug: string }, readonly price?: { readonly amount: number, readonly currency: string } | null, readonly costPrice?: { readonly amount: number, readonly currency: string } | null }> | null, readonly attributes: ReadonlyArray<{ readonly attribute: { readonly id: string, readonly name?: string | null, readonly type?: AttributeTypeEnum | null }, readonly values: ReadonlyArray<{ readonly id: string, readonly name?: string | null, readonly value?: string | null }> }>, readonly stocks?: ReadonlyArray<{ readonly id: string, readonly quantity: number, readonly quantityAllocated: number, readonly quantityReserved: number, readonly warehouse: { readonly id: string, readonly name: string } }> | null, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }> }> | null, readonly media?: ReadonlyArray<{ readonly id: string, readonly url: string, readonly alt: string, readonly type: ProductMediaType }> | null, readonly thumbnail?: { readonly url: string, readonly alt?: string | null } | null, readonly metadata: ReadonlyArray<{ readonly key: string, readonly value: string }>, readonly channelListings?: ReadonlyArray<{ readonly id: string, readonly isPublished: boolean, readonly publicationDate?: string | null, readonly isAvailableForPurchase?: boolean | null, readonly availableForPurchaseAt?: string | null, readonly visibleInListings: boolean, readonly channel: { readonly slug: string }, readonly pricing?: { readonly priceRange?: { readonly start?: { readonly gross: { readonly amount: number, readonly currency: string } } | null, readonly stop?: { readonly gross: { readonly amount: number, readonly currency: string } } | null } | null } | null }> | null } }>, readonly pageInfo: { readonly hasNextPage: boolean, readonly hasPreviousPage: boolean, readonly startCursor?: string | null, readonly endCursor?: string | null } } | null };
 
 export type OrderCreatedSubscriptionSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -100000,6 +100124,312 @@ export const UntypedOrderFilterShippingMethodsPayloadFragmentDoc = gql`
   }
 }
     `;
+export const UntypedAcceptRestaurantOrderDocument = gql`
+    mutation AcceptRestaurantOrder($orderId: ID!, $preparationTime: String!) {
+  orderConfirm(id: $orderId) {
+    order {
+      id
+      status
+      updatedAt
+      events {
+        id
+        type
+        date
+        message
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+  updatePrivateMetadata(
+    id: $orderId
+    input: [{key: "estimatedPreparationTime", value: $preparationTime}, {key: "acceptedAt", value: "2024-01-01T12:00:00Z"}, {key: "status", value: "accepted"}]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+    `;
+
+export function useAcceptRestaurantOrderMutation() {
+  return Urql.useMutation<AcceptRestaurantOrderMutation, AcceptRestaurantOrderMutationVariables>(UntypedAcceptRestaurantOrderDocument);
+};
+export const UntypedRejectRestaurantOrderDocument = gql`
+    mutation RejectRestaurantOrder($orderId: ID!, $rejectionReason: String!) {
+  orderCancel(id: $orderId) {
+    order {
+      id
+      status
+      events {
+        id
+        type
+        date
+        message
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+  updatePrivateMetadata(
+    id: $orderId
+    input: [{key: "rejectionReason", value: $rejectionReason}, {key: "rejectedAt", value: "2024-01-01T12:00:00Z"}, {key: "status", value: "rejected"}]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+    `;
+
+export function useRejectRestaurantOrderMutation() {
+  return Urql.useMutation<RejectRestaurantOrderMutation, RejectRestaurantOrderMutationVariables>(UntypedRejectRestaurantOrderDocument);
+};
+export const UntypedStartOrderPreparationDocument = gql`
+    mutation StartOrderPreparation($orderId: ID!, $kitchenStation: String!) {
+  updatePrivateMetadata(
+    id: $orderId
+    input: [{key: "kitchenStation", value: $kitchenStation}, {key: "preparationStarted", value: "2024-01-01T12:00:00Z"}, {key: "status", value: "preparing"}]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+    `;
+
+export function useStartOrderPreparationMutation() {
+  return Urql.useMutation<StartOrderPreparationMutation, StartOrderPreparationMutationVariables>(UntypedStartOrderPreparationDocument);
+};
+export const UntypedCompleteOrderItemDocument = gql`
+    mutation CompleteOrderItem($fulfillmentId: ID!, $lineId: ID!, $completedQuantity: Int!) {
+  orderFulfillmentUpdateTracking(
+    id: $fulfillmentId
+    input: {trackingNumber: "COMPLETED", notifyCustomer: true}
+  ) {
+    fulfillment {
+      id
+      status
+      trackingNumber
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+    `;
+
+export function useCompleteOrderItemMutation() {
+  return Urql.useMutation<CompleteOrderItemMutation, CompleteOrderItemMutationVariables>(UntypedCompleteOrderItemDocument);
+};
+export const UntypedMarkOrderReadyDocument = gql`
+    mutation MarkOrderReady($orderId: ID!, $fulfillmentId: ID!) {
+  orderFulfillmentUpdateTracking(
+    id: $fulfillmentId
+    input: {trackingNumber: "READY_FOR_PICKUP", notifyCustomer: true}
+  ) {
+    fulfillment {
+      id
+      status
+      trackingNumber
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+  updatePrivateMetadata(
+    id: $orderId
+    input: [{key: "readyForPickup", value: "2024-01-01T12:30:00Z"}, {key: "status", value: "ready"}]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+    `;
+
+export function useMarkOrderReadyMutation() {
+  return Urql.useMutation<MarkOrderReadyMutation, MarkOrderReadyMutationVariables>(UntypedMarkOrderReadyDocument);
+};
+export const UntypedAssignDeliveryDriverDocument = gql`
+    mutation AssignDeliveryDriver($orderId: ID!, $driverName: String!, $driverPhone: String!, $vehicleInfo: String!) {
+  updatePrivateMetadata(
+    id: $orderId
+    input: [{key: "driverName", value: $driverName}, {key: "driverPhone", value: $driverPhone}, {key: "vehicleInfo", value: $vehicleInfo}, {key: "driverAssigned", value: "2024-01-01T12:35:00Z"}, {key: "status", value: "out_for_delivery"}]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+    `;
+
+export function useAssignDeliveryDriverMutation() {
+  return Urql.useMutation<AssignDeliveryDriverMutation, AssignDeliveryDriverMutationVariables>(UntypedAssignDeliveryDriverDocument);
+};
+export const UntypedUpdateDeliveryStatusDocument = gql`
+    mutation UpdateDeliveryStatus($orderId: ID!, $status: String!, $location: String!, $estimatedArrival: String!) {
+  updatePrivateMetadata(
+    id: $orderId
+    input: [{key: "deliveryStatus", value: $status}, {key: "driverLocation", value: $location}, {key: "estimatedArrival", value: $estimatedArrival}, {key: "lastLocationUpdate", value: "2024-01-01T12:40:00Z"}]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+    `;
+
+export function useUpdateDeliveryStatusMutation() {
+  return Urql.useMutation<UpdateDeliveryStatusMutation, UpdateDeliveryStatusMutationVariables>(UntypedUpdateDeliveryStatusDocument);
+};
+export const UntypedCompleteOrderDeliveryDocument = gql`
+    mutation CompleteOrderDelivery($orderId: ID!, $fulfillmentId: ID!) {
+  orderFulfillmentUpdateTracking(
+    id: $fulfillmentId
+    input: {trackingNumber: "DELIVERED", notifyCustomer: true}
+  ) {
+    fulfillment {
+      id
+      status
+      trackingNumber
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+  updatePrivateMetadata(
+    id: $orderId
+    input: [{key: "deliveredAt", value: "2024-01-01T13:00:00Z"}, {key: "status", value: "delivered"}]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+    `;
+
+export function useCompleteOrderDeliveryMutation() {
+  return Urql.useMutation<CompleteOrderDeliveryMutation, CompleteOrderDeliveryMutationVariables>(UntypedCompleteOrderDeliveryDocument);
+};
+export const UntypedUpdateMenuItemAvailabilityDocument = gql`
+    mutation UpdateMenuItemAvailability($productId: ID!, $channelId: ID!, $isAvailable: Boolean!) {
+  productChannelListingUpdate(
+    id: $productId
+    input: {updateChannels: [{channelId: $channelId, isAvailableForPurchase: $isAvailable, availableForPurchaseAt: "2024-01-01T00:00:00Z"}]}
+  ) {
+    product {
+      id
+      name
+      channelListings {
+        channel {
+          slug
+        }
+        isAvailableForPurchase
+        availableForPurchaseAt
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+    `;
+
+export function useUpdateMenuItemAvailabilityMutation() {
+  return Urql.useMutation<UpdateMenuItemAvailabilityMutation, UpdateMenuItemAvailabilityMutationVariables>(UntypedUpdateMenuItemAvailabilityDocument);
+};
 export const UntypedLastOrderDocument = gql`
     query LastOrder {
   orders(first: 1) {
@@ -100035,6 +100465,291 @@ export const UntypedLastOrderDocument = gql`
 export function useLastOrderQuery(options?: Omit<Urql.UseQueryArgs<LastOrderQueryVariables>, 'query'>) {
   return Urql.useQuery<LastOrderQuery, LastOrderQueryVariables>({ query: UntypedLastOrderDocument, ...options });
 };
+export const UntypedRestaurantOrderQueueDocument = gql`
+    query RestaurantOrderQueue($channel: ID!, $status: [OrderStatusFilter!], $first: Int, $after: String) {
+  orders(
+    filter: {channels: [$channel], status: $status, created: {gte: "2024-01-01T00:00:00Z"}}
+    first: $first
+    after: $after
+    sortBy: {field: CREATION_DATE, direction: ASC}
+  ) {
+    edges {
+      node {
+        id
+        number
+        status
+        created
+        updatedAt
+        total {
+          gross {
+            amount
+            currency
+          }
+          net {
+            amount
+            currency
+          }
+          tax {
+            amount
+            currency
+          }
+        }
+        user {
+          id
+          firstName
+          lastName
+          email
+        }
+        shippingAddress {
+          firstName
+          lastName
+          streetAddress1
+          streetAddress2
+          city
+          postalCode
+          country {
+            code
+            country
+          }
+          phone
+        }
+        lines {
+          id
+          productName
+          variantName
+          productSku
+          quantity
+          quantityFulfilled
+          totalPrice {
+            gross {
+              amount
+              currency
+            }
+          }
+          unitPrice {
+            gross {
+              amount
+              currency
+            }
+          }
+          thumbnail {
+            url
+            alt
+          }
+          metadata {
+            key
+            value
+          }
+        }
+        paymentStatus
+        isPaid
+        payments {
+          id
+          gateway
+          isActive
+          created
+          modified
+          chargeStatus
+          total {
+            amount
+            currency
+          }
+        }
+        shippingMethod {
+          id
+          name
+          description
+          metadata {
+            key
+            value
+          }
+        }
+        customerNote
+        metadata {
+          key
+          value
+        }
+        privateMetadata {
+          key
+          value
+        }
+        fulfillments {
+          id
+          status
+          created
+          fulfillmentOrder
+          trackingNumber
+          lines {
+            id
+            quantity
+            orderLine {
+              id
+              productName
+              variantName
+            }
+          }
+          metadata {
+            key
+            value
+          }
+        }
+        events {
+          id
+          type
+          date
+          user {
+            firstName
+            lastName
+          }
+          message
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}
+    `;
+
+export function useRestaurantOrderQueueQuery(options: Omit<Urql.UseQueryArgs<RestaurantOrderQueueQueryVariables>, 'query'>) {
+  return Urql.useQuery<RestaurantOrderQueueQuery, RestaurantOrderQueueQueryVariables>({ query: UntypedRestaurantOrderQueueDocument, ...options });
+};
+export const UntypedOrderTrackingForCustomerDocument = gql`
+    query OrderTrackingForCustomer($id: ID!) {
+  order(id: $id) {
+    id
+    number
+    status
+    created
+    updatedAt
+    total {
+      gross {
+        amount
+        currency
+      }
+    }
+    user {
+      firstName
+      lastName
+    }
+    shippingAddress {
+      firstName
+      lastName
+      streetAddress1
+      city
+      postalCode
+    }
+    lines {
+      id
+      productName
+      variantName
+      quantity
+      quantityFulfilled
+      totalPrice {
+        gross {
+          amount
+          currency
+        }
+      }
+      thumbnail {
+        url
+      }
+    }
+    shippingMethod {
+      id
+      name
+      description
+    }
+    customerNote
+    metadata {
+      key
+      value
+    }
+    paymentStatus
+    isPaid
+    events {
+      id
+      type
+      date
+      message
+      user {
+        firstName
+        lastName
+      }
+    }
+    fulfillments {
+      id
+      status
+      created
+      trackingNumber
+      lines {
+        id
+        quantity
+        orderLine {
+          productName
+        }
+      }
+      metadata {
+        key
+        value
+      }
+    }
+  }
+}
+    `;
+
+export function useOrderTrackingForCustomerQuery(options: Omit<Urql.UseQueryArgs<OrderTrackingForCustomerQueryVariables>, 'query'>) {
+  return Urql.useQuery<OrderTrackingForCustomerQuery, OrderTrackingForCustomerQueryVariables>({ query: UntypedOrderTrackingForCustomerDocument, ...options });
+};
+export const UntypedTodaysRestaurantOrdersDocument = gql`
+    query TodaysRestaurantOrders($channel: ID!) {
+  orders(
+    filter: {channels: [$channel], created: {gte: "2024-01-01T00:00:00Z", lte: "2024-01-01T23:59:59Z"}}
+    first: 100
+    sortBy: {field: CREATION_DATE, direction: DESC}
+  ) {
+    edges {
+      node {
+        id
+        number
+        status
+        created
+        total {
+          gross {
+            amount
+            currency
+          }
+        }
+        lines {
+          id
+          productName
+          quantity
+        }
+        user {
+          firstName
+          lastName
+        }
+        shippingAddress {
+          city
+        }
+        paymentStatus
+        fulfillments {
+          status
+        }
+      }
+    }
+    totalCount
+  }
+}
+    `;
+
+export function useTodaysRestaurantOrdersQuery(options: Omit<Urql.UseQueryArgs<TodaysRestaurantOrdersQueryVariables>, 'query'>) {
+  return Urql.useQuery<TodaysRestaurantOrdersQuery, TodaysRestaurantOrdersQueryVariables>({ query: UntypedTodaysRestaurantOrdersDocument, ...options });
+};
 export const UntypedProductTimestampsDocument = gql`
     query ProductTimestamps($id: ID) {
   product(id: $id) {
@@ -100046,6 +100761,308 @@ export const UntypedProductTimestampsDocument = gql`
 
 export function useProductTimestampsQuery(options?: Omit<Urql.UseQueryArgs<ProductTimestampsQueryVariables>, 'query'>) {
   return Urql.useQuery<ProductTimestampsQuery, ProductTimestampsQueryVariables>({ query: UntypedProductTimestampsDocument, ...options });
+};
+export const UntypedRestaurantsListDocument = gql`
+    query RestaurantsList {
+  channels {
+    id
+    name
+    slug
+    isActive
+    currencyCode
+    defaultCountry {
+      code
+      country
+    }
+    metadata {
+      key
+      value
+    }
+    privateMetadata {
+      key
+      value
+    }
+    warehouses {
+      id
+      name
+      address {
+        streetAddress1
+        city
+        postalCode
+        country {
+          code
+        }
+      }
+    }
+    availableShippingMethodsPerCountry {
+      countryCode
+      shippingMethods {
+        id
+        name
+        description
+        minimumOrderWeight {
+          value
+          unit
+        }
+        maximumOrderWeight {
+          value
+          unit
+        }
+        price {
+          amount
+          currency
+        }
+        minimumOrderPrice {
+          amount
+          currency
+        }
+        maximumOrderPrice {
+          amount
+          currency
+        }
+        metadata {
+          key
+          value
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useRestaurantsListQuery(options?: Omit<Urql.UseQueryArgs<RestaurantsListQueryVariables>, 'query'>) {
+  return Urql.useQuery<RestaurantsListQuery, RestaurantsListQueryVariables>({ query: UntypedRestaurantsListDocument, ...options });
+};
+export const UntypedRestaurantDetailsDocument = gql`
+    query RestaurantDetails($id: ID!, $slug: String) {
+  channel(id: $id, slug: $slug) {
+    id
+    name
+    slug
+    isActive
+    currencyCode
+    defaultCountry {
+      code
+      country
+    }
+    metadata {
+      key
+      value
+    }
+    privateMetadata {
+      key
+      value
+    }
+    warehouses {
+      id
+      name
+      address {
+        streetAddress1
+        streetAddress2
+        city
+        postalCode
+        country {
+          code
+          country
+        }
+        phone
+      }
+      metadata {
+        key
+        value
+      }
+    }
+    orderSettings {
+      automaticallyConfirmAllNewOrders
+      automaticallyFulfillNonShippableGiftCard
+    }
+    stockSettings {
+      allocationStrategy
+    }
+    availableShippingMethodsPerCountry {
+      countryCode
+      shippingMethods {
+        id
+        name
+        description
+        price {
+          amount
+          currency
+        }
+        minimumOrderPrice {
+          amount
+          currency
+        }
+        maximumOrderPrice {
+          amount
+          currency
+        }
+        metadata {
+          key
+          value
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useRestaurantDetailsQuery(options: Omit<Urql.UseQueryArgs<RestaurantDetailsQueryVariables>, 'query'>) {
+  return Urql.useQuery<RestaurantDetailsQuery, RestaurantDetailsQueryVariables>({ query: UntypedRestaurantDetailsDocument, ...options });
+};
+export const UntypedRestaurantMenuDocument = gql`
+    query RestaurantMenu($channelSlug: String!, $first: Int, $after: String) {
+  products(
+    channel: $channelSlug
+    first: $first
+    after: $after
+    filter: {isPublished: true}
+  ) {
+    edges {
+      node {
+        id
+        name
+        description
+        slug
+        category {
+          id
+          name
+          slug
+          level
+          parent {
+            id
+            name
+          }
+        }
+        productType {
+          id
+          name
+          hasVariants
+        }
+        attributes {
+          attribute {
+            id
+            name
+            type
+            inputType
+            choices(first: 100) {
+              edges {
+                node {
+                  id
+                  name
+                  value
+                }
+              }
+            }
+          }
+          values {
+            id
+            name
+            value
+            plainText
+            richText
+          }
+        }
+        variants {
+          id
+          name
+          sku
+          channelListings {
+            id
+            channel {
+              slug
+            }
+            price {
+              amount
+              currency
+            }
+            costPrice {
+              amount
+              currency
+            }
+          }
+          attributes {
+            attribute {
+              id
+              name
+              type
+            }
+            values {
+              id
+              name
+              value
+            }
+          }
+          stocks {
+            id
+            warehouse {
+              id
+              name
+            }
+            quantity
+            quantityAllocated
+            quantityReserved
+          }
+          metadata {
+            key
+            value
+          }
+        }
+        media {
+          id
+          url
+          alt
+          type
+        }
+        thumbnail {
+          url
+          alt
+        }
+        metadata {
+          key
+          value
+        }
+        channelListings {
+          id
+          channel {
+            slug
+          }
+          isPublished
+          publicationDate
+          isAvailableForPurchase
+          availableForPurchaseAt
+          visibleInListings
+          pricing {
+            priceRange {
+              start {
+                gross {
+                  amount
+                  currency
+                }
+              }
+              stop {
+                gross {
+                  amount
+                  currency
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}
+    `;
+
+export function useRestaurantMenuQuery(options: Omit<Urql.UseQueryArgs<RestaurantMenuQueryVariables>, 'query'>) {
+  return Urql.useQuery<RestaurantMenuQuery, RestaurantMenuQueryVariables>({ query: UntypedRestaurantMenuDocument, ...options });
 };
 export const UntypedOrderCreatedSubscriptionDocument = gql`
     subscription OrderCreatedSubscription {
@@ -100071,7 +101088,22 @@ export function useOrderFilterShippingMethodsSubscriptionSubscription<TData = Or
 };
 export const OrderCreatedWebhookPayloadFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrderCreatedWebhookPayload"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"OrderCreated"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userEmail"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"number"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]} as unknown as DocumentNode<OrderCreatedWebhookPayloadFragment, unknown>;
 export const OrderFilterShippingMethodsPayloadFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrderFilterShippingMethodsPayload"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"OrderFilterShippingMethods"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"shippingMethods"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<OrderFilterShippingMethodsPayloadFragment, unknown>;
+export const AcceptRestaurantOrderDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AcceptRestaurantOrder"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"preparationTime"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orderConfirm"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"events"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatePrivateMetadata"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"estimatedPreparationTime","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"preparationTime"}}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"acceptedAt","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"2024-01-01T12:00:00Z","block":false}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"status","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"accepted","block":false}}]}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Order"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"privateMetadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<AcceptRestaurantOrderMutation, AcceptRestaurantOrderMutationVariables>;
+export const RejectRestaurantOrderDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RejectRestaurantOrder"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"rejectionReason"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orderCancel"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"events"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatePrivateMetadata"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"rejectionReason","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"rejectionReason"}}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"rejectedAt","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"2024-01-01T12:00:00Z","block":false}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"status","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"rejected","block":false}}]}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Order"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"privateMetadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<RejectRestaurantOrderMutation, RejectRestaurantOrderMutationVariables>;
+export const StartOrderPreparationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StartOrderPreparation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"kitchenStation"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatePrivateMetadata"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"kitchenStation","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"kitchenStation"}}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"preparationStarted","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"2024-01-01T12:00:00Z","block":false}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"status","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"preparing","block":false}}]}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Order"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"privateMetadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<StartOrderPreparationMutation, StartOrderPreparationMutationVariables>;
+export const CompleteOrderItemDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CompleteOrderItem"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fulfillmentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lineId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"completedQuantity"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orderFulfillmentUpdateTracking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fulfillmentId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"trackingNumber"},"value":{"kind":"StringValue","value":"COMPLETED","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"notifyCustomer"},"value":{"kind":"BooleanValue","value":true}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"fulfillment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"trackingNumber"}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<CompleteOrderItemMutation, CompleteOrderItemMutationVariables>;
+export const MarkOrderReadyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MarkOrderReady"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fulfillmentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orderFulfillmentUpdateTracking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fulfillmentId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"trackingNumber"},"value":{"kind":"StringValue","value":"READY_FOR_PICKUP","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"notifyCustomer"},"value":{"kind":"BooleanValue","value":true}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"fulfillment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"trackingNumber"}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatePrivateMetadata"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"readyForPickup","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"2024-01-01T12:30:00Z","block":false}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"status","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"ready","block":false}}]}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Order"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"privateMetadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<MarkOrderReadyMutation, MarkOrderReadyMutationVariables>;
+export const AssignDeliveryDriverDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AssignDeliveryDriver"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverPhone"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"vehicleInfo"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatePrivateMetadata"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"driverName","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverName"}}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"driverPhone","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverPhone"}}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"vehicleInfo","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"vehicleInfo"}}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"driverAssigned","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"2024-01-01T12:35:00Z","block":false}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"status","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"out_for_delivery","block":false}}]}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Order"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"privateMetadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<AssignDeliveryDriverMutation, AssignDeliveryDriverMutationVariables>;
+export const UpdateDeliveryStatusDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateDeliveryStatus"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"estimatedArrival"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatePrivateMetadata"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"deliveryStatus","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"driverLocation","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"estimatedArrival","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"estimatedArrival"}}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"lastLocationUpdate","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"2024-01-01T12:40:00Z","block":false}}]}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Order"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"privateMetadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateDeliveryStatusMutation, UpdateDeliveryStatusMutationVariables>;
+export const CompleteOrderDeliveryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CompleteOrderDelivery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fulfillmentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orderFulfillmentUpdateTracking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fulfillmentId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"trackingNumber"},"value":{"kind":"StringValue","value":"DELIVERED","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"notifyCustomer"},"value":{"kind":"BooleanValue","value":true}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"fulfillment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"trackingNumber"}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatePrivateMetadata"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"deliveredAt","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"2024-01-01T13:00:00Z","block":false}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"key"},"value":{"kind":"StringValue","value":"status","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"StringValue","value":"delivered","block":false}}]}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Order"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"privateMetadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<CompleteOrderDeliveryMutation, CompleteOrderDeliveryMutationVariables>;
+export const UpdateMenuItemAvailabilityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateMenuItemAvailability"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"productId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"channelId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"isAvailable"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"productChannelListingUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"updateChannels"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"channelId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"channelId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"isAvailableForPurchase"},"value":{"kind":"Variable","name":{"kind":"Name","value":"isAvailable"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"availableForPurchaseAt"},"value":{"kind":"StringValue","value":"2024-01-01T00:00:00Z","block":false}}]}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"product"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"channelListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"channel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isAvailableForPurchase"}},{"kind":"Field","name":{"kind":"Name","value":"availableForPurchaseAt"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateMenuItemAvailabilityMutation, UpdateMenuItemAvailabilityMutationVariables>;
 export const LastOrderDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LastOrder"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orders"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"number"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"shippingAddress"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gross"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lines"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<LastOrderQuery, LastOrderQueryVariables>;
+export const RestaurantOrderQueueDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RestaurantOrderQueue"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"channel"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrderStatusFilter"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orders"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"channels"},"value":{"kind":"ListValue","values":[{"kind":"Variable","name":{"kind":"Name","value":"channel"}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"created"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"gte"},"value":{"kind":"StringValue","value":"2024-01-01T00:00:00Z","block":false}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}},{"kind":"Argument","name":{"kind":"Name","value":"sortBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"field"},"value":{"kind":"EnumValue","value":"CREATION_DATE"}},{"kind":"ObjectField","name":{"kind":"Name","value":"direction"},"value":{"kind":"EnumValue","value":"ASC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"number"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"total"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gross"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"net"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tax"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"shippingAddress"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"streetAddress1"}},{"kind":"Field","name":{"kind":"Name","value":"streetAddress2"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"Field","name":{"kind":"Name","value":"phone"}}]}},{"kind":"Field","name":{"kind":"Name","value":"lines"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"productName"}},{"kind":"Field","name":{"kind":"Name","value":"variantName"}},{"kind":"Field","name":{"kind":"Name","value":"productSku"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"quantityFulfilled"}},{"kind":"Field","name":{"kind":"Name","value":"totalPrice"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gross"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"unitPrice"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gross"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"paymentStatus"}},{"kind":"Field","name":{"kind":"Name","value":"isPaid"}},{"kind":"Field","name":{"kind":"Name","value":"payments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"gateway"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"modified"}},{"kind":"Field","name":{"kind":"Name","value":"chargeStatus"}},{"kind":"Field","name":{"kind":"Name","value":"total"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"shippingMethod"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"customerNote"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"privateMetadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"fulfillments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"fulfillmentOrder"}},{"kind":"Field","name":{"kind":"Name","value":"trackingNumber"}},{"kind":"Field","name":{"kind":"Name","value":"lines"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"orderLine"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"productName"}},{"kind":"Field","name":{"kind":"Name","value":"variantName"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"events"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"endCursor"}}]}}]}}]}}]} as unknown as DocumentNode<RestaurantOrderQueueQuery, RestaurantOrderQueueQueryVariables>;
+export const OrderTrackingForCustomerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"OrderTrackingForCustomer"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"order"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"number"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"total"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gross"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"shippingAddress"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"streetAddress1"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"lines"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"productName"}},{"kind":"Field","name":{"kind":"Name","value":"variantName"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"quantityFulfilled"}},{"kind":"Field","name":{"kind":"Name","value":"totalPrice"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gross"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"shippingMethod"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"customerNote"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"paymentStatus"}},{"kind":"Field","name":{"kind":"Name","value":"isPaid"}},{"kind":"Field","name":{"kind":"Name","value":"events"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"fulfillments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"trackingNumber"}},{"kind":"Field","name":{"kind":"Name","value":"lines"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"orderLine"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"productName"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]} as unknown as DocumentNode<OrderTrackingForCustomerQuery, OrderTrackingForCustomerQueryVariables>;
+export const TodaysRestaurantOrdersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TodaysRestaurantOrders"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"channel"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orders"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"channels"},"value":{"kind":"ListValue","values":[{"kind":"Variable","name":{"kind":"Name","value":"channel"}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"created"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"gte"},"value":{"kind":"StringValue","value":"2024-01-01T00:00:00Z","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"lte"},"value":{"kind":"StringValue","value":"2024-01-01T23:59:59Z","block":false}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"100"}},{"kind":"Argument","name":{"kind":"Name","value":"sortBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"field"},"value":{"kind":"EnumValue","value":"CREATION_DATE"}},{"kind":"ObjectField","name":{"kind":"Name","value":"direction"},"value":{"kind":"EnumValue","value":"DESC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"number"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"total"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gross"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lines"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"productName"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"shippingAddress"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}}]}},{"kind":"Field","name":{"kind":"Name","value":"paymentStatus"}},{"kind":"Field","name":{"kind":"Name","value":"fulfillments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<TodaysRestaurantOrdersQuery, TodaysRestaurantOrdersQueryVariables>;
 export const ProductTimestampsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ProductTimestamps"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"product"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<ProductTimestampsQuery, ProductTimestampsQueryVariables>;
+export const RestaurantsListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RestaurantsList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"channels"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}},{"kind":"Field","name":{"kind":"Name","value":"currencyCode"}},{"kind":"Field","name":{"kind":"Name","value":"defaultCountry"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"privateMetadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"warehouses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"streetAddress1"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"availableShippingMethodsPerCountry"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"countryCode"}},{"kind":"Field","name":{"kind":"Name","value":"shippingMethods"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"minimumOrderWeight"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"unit"}}]}},{"kind":"Field","name":{"kind":"Name","value":"maximumOrderWeight"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"unit"}}]}},{"kind":"Field","name":{"kind":"Name","value":"price"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"minimumOrderPrice"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"maximumOrderPrice"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<RestaurantsListQuery, RestaurantsListQueryVariables>;
+export const RestaurantDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RestaurantDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"channel"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}},{"kind":"Field","name":{"kind":"Name","value":"currencyCode"}},{"kind":"Field","name":{"kind":"Name","value":"defaultCountry"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"privateMetadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"warehouses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"streetAddress1"}},{"kind":"Field","name":{"kind":"Name","value":"streetAddress2"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"Field","name":{"kind":"Name","value":"phone"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"orderSettings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"automaticallyConfirmAllNewOrders"}},{"kind":"Field","name":{"kind":"Name","value":"automaticallyFulfillNonShippableGiftCard"}}]}},{"kind":"Field","name":{"kind":"Name","value":"stockSettings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allocationStrategy"}}]}},{"kind":"Field","name":{"kind":"Name","value":"availableShippingMethodsPerCountry"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"countryCode"}},{"kind":"Field","name":{"kind":"Name","value":"shippingMethods"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"price"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"minimumOrderPrice"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"maximumOrderPrice"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<RestaurantDetailsQuery, RestaurantDetailsQueryVariables>;
+export const RestaurantMenuDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RestaurantMenu"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"channelSlug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"products"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"channel"},"value":{"kind":"Variable","name":{"kind":"Name","value":"channelSlug"}}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"isPublished"},"value":{"kind":"BooleanValue","value":true}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"productType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"hasVariants"}}]}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attribute"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"inputType"}},{"kind":"Field","name":{"kind":"Name","value":"choices"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"100"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"values"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"plainText"}},{"kind":"Field","name":{"kind":"Name","value":"richText"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"variants"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"sku"}},{"kind":"Field","name":{"kind":"Name","value":"channelListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"channel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"price"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"costPrice"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attribute"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"values"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"stocks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"warehouse"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"quantityAllocated"}},{"kind":"Field","name":{"kind":"Name","value":"quantityReserved"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"channelListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"channel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isPublished"}},{"kind":"Field","name":{"kind":"Name","value":"publicationDate"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailableForPurchase"}},{"kind":"Field","name":{"kind":"Name","value":"availableForPurchaseAt"}},{"kind":"Field","name":{"kind":"Name","value":"visibleInListings"}},{"kind":"Field","name":{"kind":"Name","value":"pricing"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"priceRange"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"start"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gross"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"stop"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gross"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}}]}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"endCursor"}}]}}]}}]}}]} as unknown as DocumentNode<RestaurantMenuQuery, RestaurantMenuQueryVariables>;
 export const OrderCreatedSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"OrderCreatedSubscription"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"event"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"OrderCreatedWebhookPayload"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrderCreatedWebhookPayload"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"OrderCreated"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userEmail"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"number"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]} as unknown as DocumentNode<OrderCreatedSubscriptionSubscription, OrderCreatedSubscriptionSubscriptionVariables>;
 export const OrderFilterShippingMethodsSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"OrderFilterShippingMethodsSubscription"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"event"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"OrderFilterShippingMethodsPayload"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrderFilterShippingMethodsPayload"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"OrderFilterShippingMethods"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"shippingMethods"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<OrderFilterShippingMethodsSubscriptionSubscription, OrderFilterShippingMethodsSubscriptionSubscriptionVariables>;

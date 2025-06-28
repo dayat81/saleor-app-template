@@ -1,0 +1,317 @@
+# Restaurant Order Management Mutations using existing Saleor capabilities
+
+mutation AcceptRestaurantOrder($orderId: ID!, $preparationTime: String!) {
+  orderConfirm(id: $orderId) {
+    order {
+      id
+      status
+      updatedAt
+      events {
+        id
+        type
+        date
+        message
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+  
+  # Add preparation time metadata
+  updatePrivateMetadata(
+    id: $orderId
+    input: [
+      { key: "estimatedPreparationTime", value: $preparationTime }
+      { key: "acceptedAt", value: "2024-01-01T12:00:00Z" }
+      { key: "status", value: "accepted" }
+    ]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+
+mutation RejectRestaurantOrder($orderId: ID!, $rejectionReason: String!) {
+  orderCancel(id: $orderId) {
+    order {
+      id
+      status
+      events {
+        id
+        type
+        date
+        message
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+  
+  # Add rejection reason to metadata
+  updatePrivateMetadata(
+    id: $orderId
+    input: [
+      { key: "rejectionReason", value: $rejectionReason }
+      { key: "rejectedAt", value: "2024-01-01T12:00:00Z" }
+      { key: "status", value: "rejected" }
+    ]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+
+mutation StartOrderPreparation($orderId: ID!, $kitchenStation: String!) {
+  # Add kitchen station and preparation start time to metadata
+  updatePrivateMetadata(
+    id: $orderId
+    input: [
+      { key: "kitchenStation", value: $kitchenStation }
+      { key: "preparationStarted", value: "2024-01-01T12:00:00Z" }
+      { key: "status", value: "preparing" }
+    ]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+
+mutation CompleteOrderItem($fulfillmentId: ID!, $lineId: ID!, $completedQuantity: Int!) {
+  orderFulfillmentUpdateTracking(
+    id: $fulfillmentId
+    input: {
+      trackingNumber: "COMPLETED"
+      notifyCustomer: true
+    }
+  ) {
+    fulfillment {
+      id
+      status
+      trackingNumber
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+
+mutation MarkOrderReady($orderId: ID!, $fulfillmentId: ID!) {
+  # Update fulfillment status to fulfilled
+  orderFulfillmentUpdateTracking(
+    id: $fulfillmentId
+    input: {
+      trackingNumber: "READY_FOR_PICKUP"
+      notifyCustomer: true
+    }
+  ) {
+    fulfillment {
+      id
+      status
+      trackingNumber
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+  
+  # Update order metadata
+  updatePrivateMetadata(
+    id: $orderId
+    input: [
+      { key: "readyForPickup", value: "2024-01-01T12:30:00Z" }
+      { key: "status", value: "ready" }
+    ]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+
+mutation AssignDeliveryDriver($orderId: ID!, $driverName: String!, $driverPhone: String!, $vehicleInfo: String!) {
+  updatePrivateMetadata(
+    id: $orderId
+    input: [
+      { key: "driverName", value: $driverName }
+      { key: "driverPhone", value: $driverPhone }
+      { key: "vehicleInfo", value: $vehicleInfo }
+      { key: "driverAssigned", value: "2024-01-01T12:35:00Z" }
+      { key: "status", value: "out_for_delivery" }
+    ]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+
+mutation UpdateDeliveryStatus($orderId: ID!, $status: String!, $location: String!, $estimatedArrival: String!) {
+  updatePrivateMetadata(
+    id: $orderId
+    input: [
+      { key: "deliveryStatus", value: $status }
+      { key: "driverLocation", value: $location }
+      { key: "estimatedArrival", value: $estimatedArrival }
+      { key: "lastLocationUpdate", value: "2024-01-01T12:40:00Z" }
+    ]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+
+mutation CompleteOrderDelivery($orderId: ID!, $fulfillmentId: ID!) {
+  # Mark order as fulfilled
+  orderFulfillmentUpdateTracking(
+    id: $fulfillmentId
+    input: {
+      trackingNumber: "DELIVERED"
+      notifyCustomer: true
+    }
+  ) {
+    fulfillment {
+      id
+      status
+      trackingNumber
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+  
+  # Add delivery completion metadata
+  updatePrivateMetadata(
+    id: $orderId
+    input: [
+      { key: "deliveredAt", value: "2024-01-01T13:00:00Z" }
+      { key: "status", value: "delivered" }
+    ]
+  ) {
+    item {
+      ... on Order {
+        id
+        privateMetadata {
+          key
+          value
+        }
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+
+mutation UpdateMenuItemAvailability($productId: ID!, $channelId: ID!, $isAvailable: Boolean!) {
+  productChannelListingUpdate(
+    id: $productId
+    input: {
+      updateChannels: [{
+        channelId: $channelId
+        isAvailableForPurchase: $isAvailable
+        availableForPurchaseAt: "2024-01-01T00:00:00Z"
+      }]
+    }
+  ) {
+    product {
+      id
+      name
+      channelListings {
+        channel {
+          slug
+        }
+        isAvailableForPurchase
+        availableForPurchaseAt
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}

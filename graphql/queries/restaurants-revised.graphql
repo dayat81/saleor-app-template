@@ -1,0 +1,309 @@
+# Restaurant Management using Saleor Channels
+# Each restaurant is represented as a Channel with custom metadata
+
+query RestaurantsList {
+  channels {
+    id
+    name
+    slug
+    isActive
+    currencyCode
+    defaultCountry {
+      code
+      country
+    }
+    # Restaurant-specific metadata
+    metadata {
+      key
+      value
+    }
+    # Use private metadata for internal restaurant data
+    privateMetadata {
+      key
+      value
+    }
+    # Available warehouse locations for this restaurant
+    warehouses {
+      id
+      name
+      address {
+        streetAddress1
+        city
+        postalCode
+        country {
+          code
+        }
+      }
+    }
+    # Available shipping methods (delivery options)
+    availableShippingMethodsPerCountry {
+      countryCode
+      shippingMethods {
+        id
+        name
+        description
+        minimumOrderWeight {
+          value
+          unit
+        }
+        maximumOrderWeight {
+          value
+          unit
+        }
+        price {
+          amount
+          currency
+        }
+        minimumOrderPrice {
+          amount
+          currency
+        }
+        maximumOrderPrice {
+          amount
+          currency
+        }
+        metadata {
+          key
+          value
+        }
+      }
+    }
+  }
+}
+
+query RestaurantDetails($id: ID!, $slug: String) {
+  channel(id: $id, slug: $slug) {
+    id
+    name
+    slug
+    isActive
+    currencyCode
+    defaultCountry {
+      code
+      country
+    }
+    # Restaurant metadata (hours, contact info, cuisine type, etc.)
+    metadata {
+      key
+      value
+    }
+    privateMetadata {
+      key
+      value
+    }
+    # Restaurant locations (warehouses)
+    warehouses {
+      id
+      name
+      address {
+        streetAddress1
+        streetAddress2
+        city
+        postalCode
+        country {
+          code
+          country
+        }
+        phone
+      }
+      # Warehouse metadata for location-specific info
+      metadata {
+        key
+        value
+      }
+    }
+    # Order configuration for this restaurant
+    orderSettings {
+      automaticallyConfirmAllNewOrders
+      automaticallyFulfillNonShippableGiftCard
+    }
+    # Stock settings
+    stockSettings {
+      allocationStrategy
+    }
+    # Available delivery methods
+    availableShippingMethodsPerCountry {
+      countryCode
+      shippingMethods {
+        id
+        name
+        description
+        price {
+          amount
+          currency
+        }
+        minimumOrderPrice {
+          amount
+          currency
+        }
+        maximumOrderPrice {
+          amount
+          currency
+        }
+        metadata {
+          key
+          value
+        }
+      }
+    }
+  }
+}
+
+query RestaurantMenu($channelSlug: String!, $first: Int, $after: String) {
+  products(
+    channel: $channelSlug
+    first: $first
+    after: $after
+    filter: { isPublished: true }
+  ) {
+    edges {
+      node {
+        id
+        name
+        description
+        slug
+        category {
+          id
+          name
+          slug
+          level
+          parent {
+            id
+            name
+          }
+        }
+        productType {
+          id
+          name
+          hasVariants
+        }
+        # Menu item attributes (dietary info, spice level, etc.)
+        attributes {
+          attribute {
+            id
+            name
+            type
+            inputType
+            choices(first: 100) {
+              edges {
+                node {
+                  id
+                  name
+                  value
+                }
+              }
+            }
+          }
+          values {
+            id
+            name
+            value
+            plainText
+            richText
+          }
+        }
+        # Menu item variants (sizes, options)
+        variants {
+          id
+          name
+          sku
+          # Restaurant-specific pricing and availability
+          channelListings {
+            id
+            channel {
+              slug
+            }
+            price {
+              amount
+              currency
+            }
+            costPrice {
+              amount
+              currency
+            }
+          }
+          # Variant attributes (size, customizations)
+          attributes {
+            attribute {
+              id
+              name
+              type
+            }
+            values {
+              id
+              name
+              value
+            }
+          }
+          # Stock information
+          stocks {
+            id
+            warehouse {
+              id
+              name
+            }
+            quantity
+            quantityAllocated
+            quantityReserved
+          }
+          # Variant metadata
+          metadata {
+            key
+            value
+          }
+        }
+        # Menu item media (photos)
+        media {
+          id
+          url
+          alt
+          type
+        }
+        thumbnail {
+          url
+          alt
+        }
+        # Product metadata (preparation time, allergens, etc.)
+        metadata {
+          key
+          value
+        }
+        # Channel-specific product info
+        channelListings {
+          id
+          channel {
+            slug
+          }
+          isPublished
+          publicationDate
+          isAvailableForPurchase
+          availableForPurchaseAt
+          visibleInListings
+          # Pricing information
+          pricing {
+            priceRange {
+              start {
+                gross {
+                  amount
+                  currency
+                }
+              }
+              stop {
+                gross {
+                  amount
+                  currency
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

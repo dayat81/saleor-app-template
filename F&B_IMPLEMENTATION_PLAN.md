@@ -37,7 +37,7 @@ The F&B app will be built by extending the Saleor App Template to create special
 # Initial setup commands
 pnpm install
 cp .env.example .env.local
-# Configure Saleor Cloud endpoint: https://store-4bpwsmd6.saleor.cloud/graphql/
+# Configure Saleor Cloud endpoint: https://store-5xiatpsi.saleor.cloud/graphql/
 ```
 
 #### 1.2 Saleor Schema Extensions
@@ -195,7 +195,7 @@ test: {
 **Environment setup:**
 ```bash
 # Production environment variables
-SALEOR_API_URL=https://store-4bpwsmd6.saleor.cloud/graphql/
+SALEOR_API_URL=https://store-5xiatpsi.saleor.cloud/graphql/
 APL=upstash
 UPSTASH_URL=redis://...
 UPSTASH_TOKEN=...

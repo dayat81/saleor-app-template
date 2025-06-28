@@ -4,7 +4,7 @@
 
 This document outlines the comprehensive plan for building a Food & Beverage mobile/web application using Saleor Cloud as the commerce platform backend.
 
-**Saleor GraphQL Endpoint**: `https://store-4bpwsmd6.saleor.cloud/graphql/`
+**Saleor GraphQL Endpoint**: `https://store-5xiatpsi.saleor.cloud/graphql/`
 
 ## 1. Project Scope & Objectives
 
