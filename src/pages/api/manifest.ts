@@ -5,6 +5,9 @@ import packageJson from "@/package.json";
 
 import { orderCreatedWebhook } from "./webhooks/order-created";
 import { orderFilterShippingMethodsWebhook } from "./webhooks/order-filter-shipping-methods";
+import { restaurantOrderReceivedWebhook } from "./webhooks/restaurant-order-received";
+import { orderStatusUpdateWebhook } from "./webhooks/order-status-update";
+import { deliveryAssignedWebhook } from "./webhooks/delivery-assigned";
 
 /**
  * App SDK helps with the valid Saleor App Manifest creation. Read more:
@@ -22,26 +25,33 @@ export default createManifestHandler({
 
     const extensionsForSaleor3_22: AppExtension[] = [
         {
-          url: apiBaseURL + "/api/server-widget",
-          permissions: [],
-          mount: "PRODUCT_DETAILS_WIDGETS",
-          label: "Product Timestamps",
-          target: "WIDGET",
-          options: {
-            widgetTarget: {
-              method: "POST",
-            },
-          },
+          url: apiBaseURL + "/api/restaurant-dashboard",
+          permissions: ["MANAGE_ORDERS", "MANAGE_PRODUCTS"],
+          mount: "NAVIGATION_CATALOG",
+          label: "Restaurant Management",
+          target: "APP_PAGE",
         },
         {
-          url: iframeBaseUrl+"/client-widget",
-          permissions: [],
+          url: iframeBaseUrl + "/order-tracking-widget",
+          permissions: ["MANAGE_ORDERS"],
           mount: "ORDER_DETAILS_WIDGETS",
-          label: "Order widget example",
+          label: "F&B Order Tracking",
           target: "WIDGET",
           options: {
             widgetTarget: {
               method: "GET",
+            },
+          },
+        },
+        {
+          url: apiBaseURL + "/api/menu-management",
+          permissions: ["MANAGE_PRODUCTS"],
+          mount: "PRODUCT_OVERVIEW_CREATE",
+          label: "Menu Item Creator",
+          target: "WIDGET",
+          options: {
+            widgetTarget: {
+              method: "POST",
             },
           },
         },
@@ -55,7 +65,7 @@ export default createManifestHandler({
     const extensions = is3_22 ? extensionsForSaleor3_22 : [];
 
     const manifest: AppManifest = {
-      name: "Saleor App Template",
+      name: "F&B Restaurant Management App",
       tokenTargetUrl: `${apiBaseURL}/api/register`,
       appUrl: iframeBaseUrl,
       /**
@@ -64,11 +74,13 @@ export default createManifestHandler({
        */
       permissions: [
         /**
-         * Add permission to allow "ORDER_CREATED" / "ORDER_FILTER_SHIPPING_METHODS" webhooks registration.
-         *
-         * This can be removed
+         * F&B App permissions for restaurant management
          */
-        "MANAGE_ORDERS",
+        "MANAGE_ORDERS",      // Order management and tracking
+        "MANAGE_PRODUCTS",    // Menu item management  
+        "MANAGE_USERS",       // Customer management
+        "MANAGE_CHANNELS",    // Restaurant channel management
+        "MANAGE_SHIPPING",    // Delivery method management
       ],
       id: "saleor.app",
       version: packageJson.version,
@@ -83,6 +95,9 @@ export default createManifestHandler({
       webhooks: [
         orderCreatedWebhook.getWebhookManifest(apiBaseURL),
         orderFilterShippingMethodsWebhook.getWebhookManifest(apiBaseURL),
+        restaurantOrderReceivedWebhook.getWebhookManifest(apiBaseURL),
+        orderStatusUpdateWebhook.getWebhookManifest(apiBaseURL),
+        deliveryAssignedWebhook.getWebhookManifest(apiBaseURL),
       ],
       /**
        * Optionally, extend Dashboard with custom UIs
