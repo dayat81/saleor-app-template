@@ -114,7 +114,7 @@ const styles = {
 
 const RestaurantDashboard: NextPage = () => {
   const router = useRouter();
-  const { appBridge } = useAppBridge();
+  const { appBridge, appBridgeState } = useAppBridge();
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
   const [selectedChannelId, setSelectedChannelId] = useState<string>('default-channel');
@@ -124,10 +124,39 @@ const RestaurantDashboard: NextPage = () => {
   const [preparationTime, setPreparationTime] = useState("15");
   const [rejectionReason, setRejectionReason] = useState("");
 
+  // Auth check and GraphQL client availability
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        if (!appBridgeState?.ready) {
+          setLoading(true);
+          return;
+        }
+
+        const saleorApiUrl = appBridgeState?.saleorApiUrl;
+        if (!saleorApiUrl) {
+          console.warn("No Saleor API URL available. Please install the app in Saleor Dashboard.");
+          setLoading(false);
+          return;
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [appBridgeState]);
+
+  // Only use GraphQL hooks when we have a valid client
+  const hasGraphQLClient = appBridgeState?.ready && appBridgeState?.saleorApiUrl;
+
   // Use existing GraphQL operations from Phase 1
   const [channelsResult] = useQuery({ 
     query: RestaurantsListDocument,
-    requestPolicy: 'cache-and-network'
+    requestPolicy: 'cache-and-network',
+    pause: !hasGraphQLClient
   });
   
   // Enhanced order polling with real-time features
@@ -142,7 +171,7 @@ const RestaurantDashboard: NextPage = () => {
     channelId: selectedChannelId,
     status: [OrderStatusFilter.Unconfirmed, OrderStatusFilter.Unfulfilled],
     pollInterval: 15000,
-    enabled: true
+    enabled: hasGraphQLClient
   });
 
   // Enhanced notification system
@@ -159,25 +188,6 @@ const RestaurantDashboard: NextPage = () => {
 
   const [acceptOrderResult, acceptOrder] = useMutation(AcceptRestaurantOrderDocument);
   const [rejectOrderResult, rejectOrder] = useMutation(RejectRestaurantOrderDocument);
-
-  // Auth check
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const saleorApiUrl = appBridge?.getState().saleorApiUrl;
-        if (!saleorApiUrl) {
-          router.push("/");
-          return;
-        }
-        setLoading(false);
-      } catch (error) {
-        console.error("Auth check failed:", error);
-        router.push("/");
-      }
-    };
-
-    checkAuth();
-  }, [appBridge, router]);
 
   // Filter channels to show only restaurant channels (with F&B metadata)
   const restaurantChannels = channelsResult.data?.channels?.filter(channel => 
@@ -250,7 +260,35 @@ const RestaurantDashboard: NextPage = () => {
     }
   };
 
-  if (loading || channelsResult.fetching) {
+  // Handle loading states
+  if (loading) {
+    return (
+      <Box style={styles.root} display="flex" alignItems="center" justifyContent="center">
+        <Spinner />
+      </Box>
+    );
+  }
+
+  // Handle case where there's no GraphQL client (not in Saleor Dashboard)
+  if (!hasGraphQLClient) {
+    return (
+      <Box style={styles.root} display="flex" alignItems="center" justifyContent="center">
+        <Box textAlign="center" padding={4}>
+          <Text size={6} fontWeight="bold" marginBottom={2}>
+            🍽️ Restaurant Dashboard
+          </Text>
+          <Text size={4} marginBottom={3}>
+            Please install this app in your Saleor Dashboard to access the restaurant management features.
+          </Text>
+          <Text size={3} color="default2">
+            This dashboard needs to be accessed through the Saleor Dashboard as an installed app.
+          </Text>
+        </Box>
+      </Box>
+    );
+  }
+
+  if (channelsResult.fetching) {
     return (
       <Box style={styles.root} display="flex" alignItems="center" justifyContent="center">
         <Spinner />

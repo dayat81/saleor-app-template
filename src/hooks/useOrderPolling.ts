@@ -28,7 +28,8 @@ export function useOrderPolling({
       status,
       first: 20 
     },
-    requestPolicy: 'cache-and-network'
+    requestPolicy: 'cache-and-network',
+    pause: !enabled
   });
 
   // Handle visibility change to adjust polling frequency
